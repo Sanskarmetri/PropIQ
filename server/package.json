@@ -1,0 +1,26 @@
+{
+  "name": "propiq-server",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js",
+    "seed": "node seed/seedUsers.js",
+    "test": "node --test --test-concurrency=1 tests/*.test.js",
+    "seed:market": "node seed/marketData.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^8.9.5"
+  },
+  "devDependencies": {
+    "mongodb-memory-server": "^11.3.0",
+    "nodemon": "^3.1.9",
+    "supertest": "^7.3.0"
+  }
+}

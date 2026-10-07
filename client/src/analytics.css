@@ -1,0 +1,581 @@
+/* =============================================================================
+   Admin analytics page
+   -----------------------------------------------------------------------------
+   Every chart on this page is drawn with plain SVG and coloured with the tokens
+   below, so a chart follows the same warm-paper, forest-and-lime palette as the
+   rest of PropIQ instead of a second visual language.
+   ========================================================================== */
+
+:root {
+  --analytics-active: var(--green-deep);
+  --analytics-sold: var(--amber);
+  --analytics-inactive: #9aa79f;
+}
+
+.analytics-filter-bar {
+  padding: 18px 20px 16px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.analytics-filter-bar .filter-row {
+  flex-wrap: wrap;
+}
+
+.analytics-filter-bar .select-field::after {
+  display: none;
+}
+
+.analytics-date-input {
+  min-height: 46px;
+  padding: 0 13px;
+  color: var(--ink-soft);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  outline: 0;
+  font-size: 0.76rem;
+}
+
+.analytics-date-input:focus {
+  border-color: var(--green);
+}
+
+.analytics-filter-note {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 0.7rem;
+}
+
+.analytics-metrics-grid {
+  margin-top: 18px;
+}
+
+.analytics-metric {
+  padding: 20px 20px 18px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+}
+
+.analytics-metric .metric-label,
+.analytics-metric .metric-meta {
+  color: var(--muted);
+}
+
+.analytics-metric .metric-icon {
+  color: var(--green-deep);
+  background: var(--lime-soft);
+}
+
+.analytics-metric .metric-value {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.85rem;
+  font-weight: 500;
+  letter-spacing: -0.05em;
+}
+
+.analytics-metric .metric-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 0.68rem;
+}
+
+.analytics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.analytics-card {
+  padding: 25px 25px 22px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+}
+
+.analytics-card-wide {
+  margin-top: 18px;
+}
+
+.analytics-card-note {
+  margin-top: 14px;
+  color: var(--muted);
+  font-size: 0.7rem;
+  line-height: 1.6;
+}
+
+.analytics-card .select-like {
+  gap: 6px;
+}
+
+.analytics-chart-empty {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 22px 0 6px;
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+
+/* Donut ------------------------------------------------------------------- */
+
+.analytics-donut-wrap {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-top: 22px;
+}
+
+.analytics-donut {
+  width: 148px;
+  height: 148px;
+  flex: 0 0 auto;
+}
+
+.analytics-donut-track {
+  fill: none;
+  stroke: var(--surface-soft);
+}
+
+.analytics-donut path {
+  opacity: 0.88;
+}
+
+.analytics-donut-value {
+  fill: var(--ink);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.05em;
+}
+
+.analytics-donut-label {
+  fill: var(--muted);
+  font-size: 7px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.analytics-legend {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.analytics-legend li {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  align-items: center;
+  gap: 9px;
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.analytics-legend strong {
+  color: var(--ink);
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 500;
+}
+
+.analytics-legend-share {
+  min-width: 40px;
+  color: var(--muted-light);
+  text-align: right;
+}
+
+/* Bar breakdowns ---------------------------------------------------------- */
+
+.analytics-bars {
+  display: grid;
+  gap: 15px;
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.analytics-bars li {
+  display: grid;
+  gap: 6px;
+}
+
+.analytics-bar-heading {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  font-size: 0.74rem;
+}
+
+.analytics-bar-label {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.analytics-bar-secondary {
+  color: var(--muted-light);
+}
+
+.analytics-bar-value {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 0.68rem;
+  white-space: nowrap;
+}
+
+.analytics-bar-track {
+  display: block;
+  height: 7px;
+  overflow: hidden;
+  background: var(--surface-soft);
+  border-radius: 3px;
+}
+
+.analytics-bar-fill {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--green) 0%, var(--lime) 100%);
+  border-radius: 3px;
+}
+
+.analytics-bar-meta {
+  color: var(--muted-light);
+  font-size: 0.62rem;
+}
+
+/* Trend ------------------------------------------------------------------- */
+
+.analytics-trend-wrap {
+  margin-top: 24px;
+}
+
+.analytics-trend {
+  display: block;
+  width: 100%;
+  height: 172px;
+  overflow: visible;
+}
+
+.analytics-trend-grid {
+  stroke: var(--line);
+  stroke-width: 1;
+}
+
+.analytics-trend-axis {
+  fill: var(--muted-light);
+  font-size: 7px;
+}
+
+.analytics-trend-area {
+  fill: var(--lime-soft);
+  opacity: 0.7;
+}
+
+.analytics-trend-line {
+  fill: none;
+  stroke: var(--green-deep);
+  stroke-linejoin: round;
+  stroke-width: 1.6;
+}
+
+.analytics-trend-dot {
+  fill: var(--surface);
+  stroke: var(--green-deep);
+  stroke-width: 1.4;
+}
+
+.analytics-trend-axis-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+  color: var(--muted-light);
+  font-size: 0.6rem;
+}
+
+.analytics-trend-summary {
+  margin-top: 14px;
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.analytics-trend-summary strong {
+  color: var(--green-deep);
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 500;
+}
+
+/* Stat list --------------------------------------------------------------- */
+
+.analytics-stat-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 18px;
+  margin: 22px 0 0;
+}
+
+.analytics-stat-list dt {
+  color: var(--muted-light);
+  font-size: 0.62rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.analytics-stat-list dd {
+  margin: 3px 0 0;
+  color: var(--ink);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+}
+
+/* Screening --------------------------------------------------------------- */
+
+.analytics-legend-rows {
+  display: grid;
+  gap: 10px;
+  margin: 20px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.analytics-legend-rows li {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.analytics-legend-rows li + li {
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+}
+
+.analytics-legend-rows strong {
+  margin-left: auto;
+  color: var(--ink);
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 500;
+}
+
+.analytics-flagged-list {
+  display: grid;
+  gap: 14px;
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.analytics-flagged-list li {
+  display: grid;
+  gap: 6px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.analytics-flagged-list li:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.analytics-flagged-list strong {
+  display: block;
+  color: var(--ink);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.analytics-flagged-list span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 0.68rem;
+}
+
+.analytics-flagged-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+}
+
+.analytics-flagged-meta strong {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.analytics-risk {
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 0.6rem !important;
+  font-weight: 600;
+}
+
+.analytics-risk-high {
+  color: var(--red);
+  background: var(--red-soft);
+}
+
+.analytics-risk-medium {
+  color: var(--amber);
+  background: var(--amber-soft);
+}
+
+.analytics-risk-low,
+.analytics-risk-unknown {
+  color: var(--muted);
+  background: var(--surface-soft);
+}
+
+/* Report ------------------------------------------------------------------ */
+
+.analytics-report-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.analytics-report {
+  margin-top: 22px;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+  outline: 0;
+}
+
+.analytics-report header h3 {
+  font-size: 1.15rem;
+}
+
+.analytics-report header p {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 0.7rem;
+}
+
+.analytics-report-findings {
+  display: grid;
+  gap: 9px;
+  margin: 18px 0 0;
+  padding-left: 18px;
+  color: var(--ink-soft);
+  font-size: 0.8rem;
+  line-height: 1.65;
+}
+
+.analytics-report-section {
+  margin-top: 26px;
+}
+
+.analytics-report-section h4,
+.analytics-report-limitations h4 {
+  font-size: 0.95rem;
+}
+
+.analytics-report-section > p {
+  margin: 3px 0 10px;
+  color: var(--muted);
+  font-size: 0.7rem;
+}
+
+.analytics-report table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.72rem;
+  text-align: left;
+}
+
+.analytics-report th,
+.analytics-report td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--line);
+}
+
+.analytics-report thead th {
+  color: var(--muted-light);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.analytics-report tbody th {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.analytics-report td {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.analytics-report-limitations {
+  margin-top: 28px;
+  padding: 16px 18px;
+  background: var(--paper);
+  border-radius: var(--radius-sm);
+}
+
+.analytics-limitations {
+  display: grid;
+  gap: 7px;
+  margin: 16px 0 0;
+  padding-left: 18px;
+  color: var(--muted);
+  font-size: 0.7rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 900px) {
+  .analytics-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .analytics-donut-wrap {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 560px) {
+  .analytics-card,
+  .analytics-filter-bar {
+    padding: 20px 16px 18px;
+  }
+
+  .analytics-stat-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .analytics-bar-heading {
+    flex-wrap: wrap;
+  }
+
+  .analytics-bar-value {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+/* Printing the report: keep the written findings, drop the interactive shell. */
+@media print {
+  .site-header,
+  .footer,
+  .analytics-filter-bar,
+  .analytics-report-actions,
+  .propval-launcher {
+    display: none !important;
+  }
+
+  .analytics-report {
+    border-top: 0;
+  }
+}

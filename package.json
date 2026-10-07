@@ -1,0 +1,16 @@
+{
+  "name": "propiq",
+  "version": "0.1.0",
+  "private": true,
+  "description": "PropIQ AI-powered property valuation and fraud detection platform",
+  "scripts": {
+    "install:all": "npm install --prefix client && npm install --prefix server",
+    "dev:client": "npm --prefix client run dev",
+    "dev:server": "npm --prefix server run dev",
+    "build:client": "npm --prefix client run build",
+    "lint:client": "npm --prefix client run lint",
+    "test:server": "npm --prefix server run test",
+    "seed:users": "npm --prefix server run seed",
+    "seed:market": "npm --prefix server run seed:market"
+  }
+}
