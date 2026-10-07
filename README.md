@@ -1,6 +1,61 @@
 # PropIQ
 
-PropIQ is a MERN foundation for an AI-powered property valuation and fraud detection platform. Phase 1 delivered a polished product shell, realistic sample data, accessible preview interactions, and a clean Express/Mongoose API foundation. Phase 2 adds the MongoDB-backed foundation: a real `User` model, JWT authentication with role-based authorization, connected Login/Register experiences, and live property CRUD for sellers. Phase 3 adds the first real engine: a transparent, rule-based valuation built on locality benchmarks, amenity credits, and property age, exposed through `POST /api/valuation` and the connected valuation and property-detail screens. Phase 4 adds the second real engine: deterministic, explainable listing screening for price deviation and duplicate active listings, exposed through `POST /api/fraud/check` and a screening panel on the property-detail screen. Phase 5 adds PropVal, the in-app property intelligence assistant: a deterministic, application-native parser and router over those engines, exposed through `POST /api/propval` and a compact floating assistant. Every engine is plain rules with published weights, so every result can be traced back to the rule that produced it, and nothing in PropVal calls an external model.
+AI-powered property intelligence platform for valuation,
+fraud-risk screening, property search, and listing analytics.
+
+## 🚀 Features
+
+- Property discovery and advanced filtering
+- Rule-based property valuation
+- Explainable fraud-risk screening
+- PropVal property intelligence assistant
+- Admin listing analytics
+- JWT authentication + role-based access
+- MongoDB-backed property CRUD
+- Responsive Liquid Glass / Bento UI
+
+## 🛠 Tech Stack
+
+Frontend
+- React
+- Vite
+- Framer Motion
+- CSS
+
+Backend
+- Node.js
+- Express
+- MongoDB
+- Mongoose
+- JWT
+
+## 🏗 Architecture
+
+[architecture diagram / screenshot]
+
+## 📸 Screenshots
+
+[Home]
+[Explore]
+[Property Details]
+[Analytics]
+[PropVal]
+
+## ⚡ Quick Start
+
+...
+
+## 📡 API
+
+...
+
+## 🧪 Testing
+
+...
+
+## ⚠️ Disclaimer
+
+...
 
 ## Phase 1 scope
 
