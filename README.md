@@ -1,61 +1,306 @@
-# PropIQ
+PropIQ
 
-AI-powered property intelligence platform for valuation,
-fraud-risk screening, property search, and listing analytics.
+Property intelligence platform for valuation, risk screening, property discovery, and listing analytics.
 
-## 🚀 Features
+PropIQ is a full-stack property intelligence platform built with React, Node.js, Express, and MongoDB. It combines property discovery and listing management with transparent valuation, explainable screening, a deterministic property intelligence assistant, and role-based market analytics.
 
-- Property discovery and advanced filtering
-- Rule-based property valuation
-- Explainable fraud-risk screening
-- PropVal property intelligence assistant
-- Admin listing analytics
-- JWT authentication + role-based access
-- MongoDB-backed property CRUD
-- Responsive Liquid Glass / Bento UI
+The project is designed around one principle:
 
-## 🛠 Tech Stack
+Every number and recommendation should be traceable to data and an explicit rule.
+
+No external LLM is used. PropVal, valuation, fraud-risk screening, and analytics are deterministic, testable application services built on the project’s own property data.
+
+⸻
+
+✨ What PropIQ Does
+
+Capability	What it provides
+🏠 Property Discovery	Search, filtering, property details, and responsive property browsing
+💰 Property Valuation	Transparent benchmark-based valuation with amenity and age adjustments
+🔎 Risk Screening	Explainable price-deviation and duplicate-listing checks
+💬 PropVal	Deterministic natural-language property intelligence assistant
+📊 Listing Analytics	Admin-only KPIs, trends, market breakdowns, and screening coverage
+🔐 Authentication & RBAC	JWT authentication with buyer, seller, and admin roles
+🏗️ Listing Management	Seller-owned property CRUD with admin controls
+🎨 Modern UI	Responsive Liquid Glass / Bento-inspired interface with motion
+
+⸻
+
+🧠 Engineering Highlights
+
+PropIQ is more than a CRUD application. The backend is structured around reusable services so that different product surfaces consume the same underlying business logic.
+
+Explainable valuation
+
+Market benchmark
+      ↓
+Built-up area
+      ↓
+Amenity adjustment
+      ↓
+Property-age adjustment
+      ↓
+Estimated property value
+      ↓
+Data-quality confidence + explanation
+
+The valuation engine uses a documented fallback hierarchy and reports exactly which benchmark was used. Estimates are calculated on demand and are never persisted on the property.
+
+Deterministic risk screening
+
+Property
+   │
+   ├── Current PropIQ valuation
+   │          ↓
+   │    Price deviation
+   │
+   └── Comparable active listings
+              ↓
+       Duplicate detection
+              ↓
+       Explainable screening result
+
+A screening flag means “review recommended”, not “fraud”. Thresholds and weights are explicitly configured and documented.
+
+PropVal intelligence assistant
+
+User message
+     ↓
+Entity parsing
+     ↓
+Intent detection
+     ↓
+Context resolution
+     ↓
+Existing PropIQ services
+     ↓
+Structured response
+
+PropVal understands property searches, valuations, pricing questions, screening explanations, similar-property requests, and admin analytics without calling an external LLM.
+
+⸻
+
+🏗️ Architecture
+
+┌─────────────────────────────────────────────────────────────┐
+│                         React Client                        │
+│                                                             │
+│  Home │ Explore │ Property │ Valuation │ Dashboard │       │
+│  Analytics │ PropVal │ Authentication                       │
+└────────────────────────────┬────────────────────────────────┘
+                             │ REST API
+                             ▼
+┌─────────────────────────────────────────────────────────────┐
+│                     Express API Layer                       │
+│                                                             │
+│ Auth │ Properties │ Valuation │ Fraud │ PropVal │ Analytics │
+└────────────────────────────┬────────────────────────────────┘
+                             │
+                             ▼
+┌─────────────────────────────────────────────────────────────┐
+│                     Service Layer                           │
+│                                                             │
+│ propertyService       valuationService                     │
+│ fraudService          duplicateDetectionService            │
+│ analyticsService      PropVal pipeline                      │
+└────────────────────────────┬────────────────────────────────┘
+                             │
+                             ▼
+┌─────────────────────────────────────────────────────────────┐
+│                         MongoDB                             │
+│                                                             │
+│ Users │ Properties │ HistoricalPrice                        │
+└─────────────────────────────────────────────────────────────┘
+
+The architecture keeps API routes, controllers, business services, models, validation, and configuration separated so individual features can be tested and evolved independently.
+
+⸻
+
+🛠️ Tech Stack
 
 Frontend
-- React
-- Vite
-- Framer Motion
-- CSS
+
+* React
+* Vite
+* Framer Motion
+* CSS
+* Responsive Liquid Glass / Bento UI
 
 Backend
-- Node.js
-- Express
-- MongoDB
-- Mongoose
-- JWT
 
-## 🏗 Architecture
+* Node.js
+* Express
+* Mongoose
+* MongoDB
+* JWT
+* bcrypt
 
-[architecture diagram / screenshot]
+Engineering
 
-## 📸 Screenshots
+* REST API architecture
+* Role-based access control
+* Input validation
+* Service-oriented business logic
+* Automated backend testing
+* In-memory MongoDB testing
+* Environment-based configuration
 
-[Home]
-[Explore]
-[Property Details]
-[Analytics]
-[PropVal]
+⸻
 
-## ⚡ Quick Start
+📸 Product Preview
 
-...
+Home
 
-## 📡 API
+<!-- Add screenshot: docs/screenshots/home.png -->
 
-...
+Explore
 
-## 🧪 Testing
+<!-- Add screenshot: docs/screenshots/explore.png -->
 
-...
+Property Details
 
-## ⚠️ Disclaimer
+<!-- Add screenshot: docs/screenshots/property-details.png -->
 
-...
+Valuation
+
+<!-- Add screenshot: docs/screenshots/valuation.png -->
+
+Admin Analytics
+
+<!-- Add screenshot: docs/screenshots/analytics.png -->
+
+PropVal
+
+<!-- Add screenshot: docs/screenshots/propval.png -->
+
+Screenshots can be added under docs/screenshots/ when available.
+
+⸻
+
+⚡ Quick Start
+
+Requirements
+
+* Node.js 18+
+* npm 9+
+* MongoDB 6+ or MongoDB Atlas
+
+1. Clone the repository
+
+git clone https://github.com/Sanskarmetri/PropIQ.git
+cd PropIQ
+
+2. Install dependencies
+
+npm run install:all
+
+3. Configure the backend
+
+cp server/.env.example server/.env
+
+Set the required values:
+
+MONGODB_URI=mongodb://127.0.0.1:27017/propiq
+JWT_SECRET=your-development-secret
+
+4. Seed development data
+
+npm run seed:users
+npm run seed:market
+
+5. Start the application
+
+Frontend:
+
+npm run dev:client
+
+Backend:
+
+npm run dev:server
+
+Then open:
+
+http://localhost:5173
+
+The frontend communicates with the Express API running on the configured backend port.
+
+⸻
+
+👤 Development Roles
+
+The development seed creates three roles:
+
+Role	Purpose
+Buyer	Browse properties and use public intelligence features
+Seller	Manage owned property listings
+Admin	Access listing analytics and administrative functionality
+
+The seed credentials are intended only for local development and are not production credentials.
+
+⸻
+
+🧪 Verification
+
+PropIQ includes automated backend tests covering authentication, authorization, property CRUD, valuation, screening, PropVal, analytics, validation, determinism, and edge cases.
+
+Run:
+
+npm run lint:client
+npm run build:client
+npm run test:server
+
+The project also supports an in-memory MongoDB test environment, so backend tests do not require a running local database.
+
+⸻
+
+🔐 Security & Data Principles
+
+PropIQ deliberately avoids presenting development assumptions as real-world certainty.
+
+* Secrets are stored through environment variables and excluded from Git.
+* JWT authentication protects private operations.
+* Seller listings are ownership-scoped server-side.
+* Admin-only analytics are protected by role-based middleware.
+* Request inputs are validated before reaching business logic.
+* PropVal does not execute or evaluate user input as code.
+* Database filters are validated and constrained.
+* Valuation and screening results are calculated from current stored data.
+* Screening flags are presented as review signals, not accusations.
+* Development market benchmarks are explicitly labelled as sample data.
+* No external LLM or chatbot API is used by PropVal.
+
+⸻
+
+⚠️ Important Limitation
+
+PropIQ is a software prototype and decision-support system, not a replacement for professional property valuation, legal due diligence, title verification, inspection, or fraud investigation.
+
+The included market benchmarks are development sample data, not live market data.
+
+Screening thresholds are documented development assumptions rather than statistically validated fraud indicators.
+
+Analytics describe the listings stored inside PropIQ; they should not be interpreted as a representation of the entire real-estate market.
+
+⸻
+
+📚 Project Documentation
+
+The remainder of this README documents the implementation in detail:
+
+* Phase 1 — React/Vite frontend and initial property API
+* Phase 2 — Authentication, RBAC, MongoDB property CRUD, and seller workspace
+* Phase 3 — Explainable property valuation engine
+* Phase 4 — Deterministic fraud-risk screening
+* Phase 5 — PropVal property intelligence assistant
+* Phase 6 — Admin listing analytics
+
+⸻
+
+Built as a full-stack engineering project with an emphasis on explainability, deterministic business logic, security, testing, and polished user experience.
+
+⸻
+
+Phase 1 scope
 
 ## Phase 1 scope
 
